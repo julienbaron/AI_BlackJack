@@ -46,6 +46,7 @@ InitFrame::InitFrame()
 	ShowWindow(m_hWnd, SW_SHOW);
 }
 
+
 bool InitFrame::ProcessMessages()
 {
 	MSG msg = {};
@@ -60,20 +61,44 @@ bool InitFrame::ProcessMessages()
 	return true;
 }
 
+bool LoadAndBlitMap(LPCSTR name, HDC hWnDC) {
+	HBITMAP bm;
+	bm = (HBITMAP)::LoadImage(NULL, name, IMAGE_BITMAP, 200, 200, LR_LOADFROMFILE);
+	if (bm) {
+		HDC hLocalDC = ::CreateCompatibleDC(hWnDC);
+		BITMAP qBitmap;
+		auto iReturn = GetObject(reinterpret_cast<HGDIOBJ>(bm), sizeof(BITMAP),
+			reinterpret_cast<PVOID> (&qBitmap));
+		HBITMAP hOldBitmp = (HBITMAP)::SelectObject(hLocalDC, bm);
+		BOOL qRetBlit = ::BitBlt(hWnDC, 200, 200, qBitmap.bmWidth, qBitmap.bmHeight, hLocalDC, 0, 0, SRCCOPY);
+		::SelectObject(hLocalDC, hOldBitmp);
+		return true;
+	}
+}
+
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+
 	switch (uMsg)
 	{
-	/*case WM_CREATE:
-		HBITMAP hImage = (HBITMAP)LoadImage(NULL, "test.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE)*/
 		
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
 		break;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
+
+	case WM_PAINT:
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hWnd, &ps);
+		LoadAndBlitMap("cardBack_red5.bmp", hdc);
+		EndPaint(hWnd, &ps);
+		return 0;
 	}
+
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }

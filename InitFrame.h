@@ -13,7 +13,7 @@ private:
 public:
 	InitFrame();
 	~InitFrame();
-
+	void LoadBitmaps(LPCSTR pathFileName);
 	bool ProcessMessages();
 };
 
