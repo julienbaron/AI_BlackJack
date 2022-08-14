@@ -22,7 +22,7 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="InitFrame.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -42,13 +42,10 @@
     <Image Include="IconSmall.ico">
       <Filter>Fichiers de ressources</Filter>
     </Image>
-    <Image Include="LAND.BMP">
-      <Filter>Fichiers de ressources</Filter>
-    </Image>
-    <Image Include="cardBack.BMP">
-      <Filter>Fichiers de ressources</Filter>
-    </Image>
     <Image Include="cardBack_red5.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="LAND.BMP">
       <Filter>Fichiers de ressources</Filter>
     </Image>
   </ItemGroup>

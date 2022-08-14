@@ -1,5 +1,6 @@
 #include <iostream>
 #include "InitFrame.h"
+#include <string> 
 
 InitFrame::InitFrame()
 	:m_hIstance(GetModuleHandle(nullptr))
@@ -17,8 +18,8 @@ InitFrame::InitFrame()
 
 	DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU; 
 
-	int width = 640;
-	int height = 480; 
+	width = 640;
+	height = 480; 
 
 	RECT rect;
 	rect.left = 250;
@@ -61,28 +62,33 @@ bool InitFrame::ProcessMessages()
 	return true;
 }
 
-bool LoadAndBlitMap(LPCSTR name, HDC hWnDC) {
+//TODO : try to wrapp this method 
+bool LoadAndBlitMap(LPCSTR name, HDC hWnDC, int width, int height, int pwidth, int pheight) {
 	HBITMAP bm;
-	bm = (HBITMAP)::LoadImage(NULL, name, IMAGE_BITMAP, 200, 200, LR_LOADFROMFILE);
+	bm = (HBITMAP)::LoadImage(NULL, name, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
 	if (bm) {
+
 		HDC hLocalDC = ::CreateCompatibleDC(hWnDC);
 		BITMAP qBitmap;
 		auto iReturn = GetObject(reinterpret_cast<HGDIOBJ>(bm), sizeof(BITMAP),
 			reinterpret_cast<PVOID> (&qBitmap));
 		HBITMAP hOldBitmp = (HBITMAP)::SelectObject(hLocalDC, bm);
-		BOOL qRetBlit = ::BitBlt(hWnDC, 200, 200, qBitmap.bmWidth, qBitmap.bmHeight, hLocalDC, 0, 0, SRCCOPY);
+		BOOL qRetBlit = ::BitBlt(hWnDC, pwidth, pheight, qBitmap.bmWidth, qBitmap.bmHeight, hLocalDC, 0, 0, SRCCOPY);
 		::SelectObject(hLocalDC, hOldBitmp);
 		return true;
 	}
+	else {
+		//TODO: get value of a long pointer 
+		std::cerr << "error occurs during the loading of some sprite";
+		return false;
+	}
 }
-
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-
 	switch (uMsg)
 	{
-		
+	
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
 		break;
@@ -91,10 +97,20 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		return 0;
 
+	case WM_ERASEBKGND: {
+		RECT rect;
+		HDC hdc = (HDC)(wParam);
+
+		GetWindowRect(hWnd, &rect);
+		LoadAndBlitMap("LAND.BMP", hdc, 640, 480, 0, 0);
+		
+		return TRUE;
+	}
+
 	case WM_PAINT:
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
-		LoadAndBlitMap("cardBack_red5.bmp", hdc);
+		LoadAndBlitMap("cardBack_red5.bmp", hdc, 70, 90, 200, 200);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

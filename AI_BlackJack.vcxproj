@@ -134,7 +134,6 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="cardBack.BMP" />
     <Image Include="cardBack_red5.bmp" />
     <Image Include="IconSmall.ico" />
     <Image Include="LAND.BMP" />
