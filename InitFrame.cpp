@@ -102,7 +102,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		HDC hdc = (HDC)(wParam);
 
 		GetWindowRect(hWnd, &rect);
-		LoadAndBlitMap("LAND.BMP", hdc, 640, 480, 0, 0);
+		LoadAndBlitMap("GameBoard.bmp", hdc, 640, 480, 0, 0);
 		
 		return TRUE;
 	}
@@ -110,7 +110,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
-		LoadAndBlitMap("cardBack_red5.bmp", hdc, 70, 90, 200, 200);
+		LoadAndBlitMap("cardBack_red5.bmp", hdc, 70, 90, 475, 95);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

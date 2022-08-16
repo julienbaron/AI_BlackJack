@@ -1,17 +1,12 @@
 #include <iostream>
-#include "InitFrame.h"
+#include "Manager.h"
+
+using namespace std;
 
 int main() {
-	InitFrame initframe;
-	bool running = true;
-	while (running)
-	{
-		if (!initframe.ProcessMessages()) {
-			running = false;
-		}
 
-		Sleep(10);
-	}
+	Manager manager;
+	manager.start();
 
 	return 0;
 }

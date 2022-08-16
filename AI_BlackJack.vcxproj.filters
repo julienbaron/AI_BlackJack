@@ -16,6 +16,12 @@
     <Filter Include="Fichiers sources\View">
       <UniqueIdentifier>{4ce4dfc6-305d-44e8-96b8-0d14482d2d6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Components">
+      <UniqueIdentifier>{225a23d2-e8fc-496f-bf54-a0cfedc392ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Controller">
+      <UniqueIdentifier>{80bcc6a8-aca4-46d7-882d-d51dc69224c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -24,12 +30,30 @@
     <ClCompile Include="InitFrame.cpp">
       <Filter>Fichiers sources\View</Filter>
     </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Deck.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Fichiers sources\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InitFrame.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Deck.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -46,6 +70,15 @@
       <Filter>Fichiers de ressources</Filter>
     </Image>
     <Image Include="LAND.BMP">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="chip\chip_3.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="chip\chip_4.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="GameBoard.bmp">
       <Filter>Fichiers de ressources</Filter>
     </Image>
   </ItemGroup>
