@@ -16,11 +16,12 @@ class Card
 		int pX = 200;
 		int pY = 200;
 		int numberOfcard = 1;
+		bool isPlayer;
 
 	public:
 		Card(string code);
 
-		void Movecard();
+		void Movecard(int numberOfCard);
 
 		void EvaluteScoreCard(string codeCard);
 
@@ -52,8 +53,9 @@ class Card
 			return cardScore;
 		}
 
-		int setNumberOfCard(int aNumberOfCard) {
-			numberOfcard = aNumberOfCard;
+		void setNumberOfCard(int aNumberOfCard) {
+			numberOfcard += aNumberOfCard;
+			Movecard(numberOfcard);
 		}
 
 		void setCode(string acode) {
@@ -72,5 +74,10 @@ class Card
 			cardScore = aCardScore;
 		}
 
+		void setIsPlayer(bool aIsPlayer) {
+			if (aIsPlayer) {pY = 300;}
+			else { pY = 100; }
+			isPlayer = true; 
+		}
 };
 

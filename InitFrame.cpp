@@ -1,6 +1,8 @@
 #include <iostream>
 #include "InitFrame.h"
-#include <string> 
+#include "Card.h"
+#include <string>
+#include <typeinfo>
 
 InitFrame::InitFrame()
 	:m_hIstance(GetModuleHandle(nullptr))
@@ -111,6 +113,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		LoadAndBlitMap("cardBack_red5.bmp", hdc, 70, 90, 475, 95);
+		TextOut(hdc, 10, 10, TEXT("Text Out String"), strlen("Text Out String"));
+		Card* card = (Card*)lParam;
+		std::cout << typeid(card).name() << endl;
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

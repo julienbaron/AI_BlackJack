@@ -9,9 +9,9 @@ Card::Card(std::string acode) {
 	Card::EvaluteScoreCard(acode);
 }
 
-void Card::Movecard()
+void Card::Movecard(int numberOfCard)
 {
-	int bufferPx = Card::getPx() + 30 * Card::getNumberOfCard();
+	int bufferPx = Card::getPx() + 30 * numberOfCard;
 	Card::setPx(bufferPx);
 }
 

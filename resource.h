@@ -3,6 +3,7 @@
 // Used by Resource.rc
 
 #define IDI_IconSmall 107
+#define WM_PAINT 15
 
 // Valeurs par défaut suivantes des nouveaux objets
 // 

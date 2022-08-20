@@ -17,5 +17,9 @@ public:
 	InitFrame();
 	~InitFrame();
 	bool ProcessMessages();
+
+	HWND getWind() {
+		return m_hWnd;
+	}
 };
 
