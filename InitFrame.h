@@ -3,6 +3,7 @@
 #include "resource.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 bool LoadAndBlitMap(LPCSTR name, HDC hWnDC, int width, int height, int pwidth, int pheight);
 
 class InitFrame
@@ -17,8 +18,9 @@ public:
 	InitFrame();
 	~InitFrame();
 	bool ProcessMessages();
+	
 
-	HWND getWind() {
+	HWND getWind() const {
 		return m_hWnd;
 	}
 };

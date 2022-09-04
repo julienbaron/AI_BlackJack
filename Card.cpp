@@ -9,6 +9,7 @@ Card::Card(std::string acode) {
 	Card::EvaluteScoreCard(acode);
 }
 
+
 void Card::Movecard(int numberOfCard)
 {
 	int bufferPx = Card::getPx() + 30 * numberOfCard;

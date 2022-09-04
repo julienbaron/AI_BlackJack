@@ -21,6 +21,8 @@ class Card
 	public:
 		Card(string code);
 
+		~Card() {};
+
 		void Movecard(int numberOfCard);
 
 		void EvaluteScoreCard(string codeCard);

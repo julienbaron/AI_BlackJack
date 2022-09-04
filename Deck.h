@@ -15,6 +15,8 @@ private:
 public:
 	Deck(); 
 
+	~Deck() {};
+
 	vector<Card*> InitDeck();
 
 	vector<Card *> DrawCard(vector<Card*> deck, vector<Card*> hand);

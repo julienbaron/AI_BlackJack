@@ -2,33 +2,15 @@
 #include "Deck.h"
 #include "InitFrame.h"
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
+
 Manager::Manager() {
-	Manager::setBank(500);
+	Manager::setBank(10);
 	Manager::setBet(15);
 }
-
-struct Chip {
-	enum ChipStandart : int { CHIP_1 = 1, CHIP_2 = 5, CHIP_3 = 20, CHIP_4 = 50 };
-	std::string code;
-	int value;
-	std::string bitmap;
-	vector<Chip*> chipCount{};
-
-	Chip() {}
-
-	Chip(std::string aCode, int aValue, std::string aBitmap) {
-		code = aCode;
-		value = aValue;
-		bitmap = aBitmap;
-	}
-
-	void setChipCount() {
-
-	}
-};
 
 void Manager::start()
 {
@@ -40,9 +22,14 @@ void Manager::start()
 		if (!initframe.ProcessMessages()) {
 			running = false;
 		}
-		cout << Manager::getDeckCroup().size();
-
 		
+		Manager::InitChipPaint(initframe);
+		
+		/*Manager::setChipCount(Manager::InitChip(Manager::getBet())); 
+
+		for (Chip* a : Manager::getChipCount()) {
+			std::cout << a->code;
+		}*/
 
 		/*for (int i = Manager::getDeckCroup().size(); i < 2; i++) {
 			Manager::setDeckCroup(deck.DrawCard(deck.getDeck(), Manager::getDeckCroup()));
@@ -54,22 +41,65 @@ void Manager::start()
 	}
 }
 
-vector<Chip*> InitChip(int bet)
-{
-	Chip chip;
-	vector<Chip*> buffer{};
-	while (bet != 0) {
-		if (bet >= chip.CHIP_1) {
-			Chip* chips = new Chip("chip_1.bmp", chip.CHIP_1, "chip_1.bmp");
-			chip.
-		}
-		else if (bet >= chip.CHIP_2) {
+void Manager::InitChipPaint(InitFrame initframe) {
 
-		}
+	std::unique_ptr<Chip> listBitmap = std::make_unique<Chip>();
+
+	bool msgSend = false;
+
+	if (Manager::getBank() >= listBitmap->CHIP_4 && !msgSend) {
+		PostMessage(initframe.getWind(), WM_PAINT, (WPARAM)0, (LPARAM)&listBitmap);
+		msgSend = true;
 	}
-	return vector<Chip*>();
+	else if (Manager::getBank() >= listBitmap->CHIP_3 && !msgSend) {
+		listBitmap->setBitmapVector(1);
+		SendMessage(initframe.getWind(), WM_PAINT, (WPARAM)0, (LPARAM)&listBitmap);
+		msgSend = true;
+	}
+	else if (Manager::getBank() >= listBitmap->CHIP_2 && !msgSend) {
+		listBitmap->setBitmapVector(2);
+		SendMessage(initframe.getWind(), WM_PAINT, (WPARAM)0, (LPARAM)&listBitmap);
+		msgSend = true;
+	}
+	else if(Manager::getBank() >= listBitmap->CHIP_1 && !msgSend) {
+		listBitmap->setBitmapVector(3);
+		SendMessage(initframe.getWind(), WM_PAINT, (WPARAM)0, (LPARAM)&listBitmap);
+		msgSend = true;
+	}
+	else {
+		listBitmap->setBitmapVector(4);
+		std::cout << "ok";
+		SendMessage(initframe.getWind(), WM_PAINT, (WPARAM)0, reinterpret_cast<LPARAM>(&listBitmap));
+		msgSend = true; 
+	}
+
+	std::cout<< "ihh";
 }
 
+vector<Chip *> Manager::InitChipBet(int bet)
+{
+	Chip chip; 
 
+	vector<Chip*> buffer;
 
+	while (Manager::getBet() != 0) {
 
+		if (Manager::getBet() >= chip.CHIP_4) {
+			buffer.push_back(new Chip("chip_4.bmp", chip.CHIP_4, "chip_4.bmp"));
+			bet -= chip.CHIP_4;
+		}
+		else if (Manager::getBet() >= chip.CHIP_3) {
+			buffer.push_back(new Chip("chip_3.bmp", chip.CHIP_3, "chip_3.bmp"));
+			bet -= chip.CHIP_3;
+		}
+		else if (Manager::getBet() >= chip.CHIP_2) {
+			buffer.push_back(new Chip("chip_2.bmp", chip.CHIP_2, "chip_2.bmp"));
+			bet -= chip.CHIP_2;
+		}
+		else if (Manager::getBet() >= chip.CHIP_1) {
+			buffer.push_back(new Chip("chip_1.bmp", chip.CHIP_1, "chip_1.bmp"));
+			bet -= chip.CHIP_2;
+		}
+	}
+	return buffer;
+}

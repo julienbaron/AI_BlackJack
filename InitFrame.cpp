@@ -1,8 +1,10 @@
 #include <iostream>
 #include "InitFrame.h"
 #include "Card.h"
+#include "Manager.h"
 #include <string>
 #include <typeinfo>
+#include <memory>
 
 InitFrame::InitFrame()
 	:m_hIstance(GetModuleHandle(nullptr))
@@ -30,7 +32,7 @@ InitFrame::InitFrame()
 	rect.bottom = rect.top + height;
 
 	AdjustWindowRect(&rect, style, false);
-
+	
 	m_hWnd = CreateWindowEx(
 		0,
 		CLASS_NAME,
@@ -64,6 +66,7 @@ bool InitFrame::ProcessMessages()
 	return true;
 }
 
+
 //TODO : try to wrapp this method 
 bool LoadAndBlitMap(LPCSTR name, HDC hWnDC, int width, int height, int pwidth, int pheight) {
 	HBITMAP bm;
@@ -77,6 +80,8 @@ bool LoadAndBlitMap(LPCSTR name, HDC hWnDC, int width, int height, int pwidth, i
 		HBITMAP hOldBitmp = (HBITMAP)::SelectObject(hLocalDC, bm);
 		BOOL qRetBlit = ::BitBlt(hWnDC, pwidth, pheight, qBitmap.bmWidth, qBitmap.bmHeight, hLocalDC, 0, 0, SRCCOPY);
 		::SelectObject(hLocalDC, hOldBitmp);
+		DeleteObject(hOldBitmp);
+		DeleteDC(hLocalDC);
 		return true;
 	}
 	else {
@@ -113,9 +118,29 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		LoadAndBlitMap("cardBack_red5.bmp", hdc, 70, 90, 475, 95);
-		TextOut(hdc, 10, 10, TEXT("Text Out String"), strlen("Text Out String"));
-		Card* card = (Card*)lParam;
-		std::cout << typeid(card).name() << endl;
+		HFONT hFont1 = CreateFont(30, 0, 0, 0, FW_MEDIUM, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+			CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Impact"));
+		HFONT hFontOriginal = (HFONT)SelectObject(hdc, hFont1);
+		SetBkMode(hdc, TRANSPARENT);
+		SetTextColor(hdc, RGB(255, 255, 255));
+		TextOut(hdc, 10, 10, TEXT("BANK:"), strlen("BANK:"));
+		
+		if (wParam == 0) {
+			std::cout << "aaa";
+			auto a = std::move((std::unique_ptr<Chip>*)lParam);
+			if (a != NULL) {
+				a->get();
+				std::cout<<"bb";
+			}
+
+		}
+			
+		//std::unique_ptr<Chip> &&test = std::move(*(std::unique_ptr<Chip>*)lParam);
+		//auto a = test.get();
+		//std::move(*((std::unique_ptr<Chip>*) lParam));
+		/*Card* card = (Card*)lParam;
+		std::cout << typeid(card).name() << endl;*/
+		DeleteObject(hFont1);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
@@ -123,6 +148,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
+
+InitFrame::
 
 InitFrame::~InitFrame()
 {
